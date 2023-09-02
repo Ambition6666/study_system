@@ -8,7 +8,7 @@ import (
 )
 
 // 验证用户是否登录的中间件
-func Mid() gin.HandlerFunc {
+func Auth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		t := ctx.GetHeader("Authorization") //得到字串开头
 		if t == "" || !strings.HasPrefix(t, "Bearer ") {

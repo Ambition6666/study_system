@@ -12,7 +12,7 @@ func InitRouter() *gin.Engine {
 	r.POST("/login", api.Login)       //登录
 	r.POST("/register", api.Register) //注册
 	idy := r.Group("/identified")
-	idy.Use(middleware.Mid())
+	idy.Use(middleware.Auth())
 	{
 		idy.GET("/userinfo", api.GetUserInfo)       //获取用户信息
 		idy.POST("/updateinfo", api.UpdateUserInfo) //更新用户信息
