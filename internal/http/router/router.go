@@ -9,9 +9,11 @@ import (
 
 func InitRouter() *gin.Engine {
 	r := gin.Default()
-	r.POST("/login", api.Login)       //登录
-	r.POST("/register", api.Register) //注册
-	idy := r.Group("/identified")
+	r.Use(middleware.Cors())
+	a := r.Group("/api")
+	a.POST("/login", api.Login)       //登录
+	a.POST("/register", api.Register) //注册
+	idy := a.Group("/identified")
 	idy.Use(middleware.Auth())
 	{
 		idy.GET("/userinfo", api.GetUserInfo)       //获取用户信息

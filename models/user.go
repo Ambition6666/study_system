@@ -6,6 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// role
+// 1-->普通成员
+// 2-->管理员
 type User struct {
 	gorm.Model
 	ID               int64  `json:"uid" gorm:"primarykey"`
@@ -14,6 +17,7 @@ type User struct {
 	Email            string `json:"email"`
 	Avatar           string `json:"avatar"`
 	IndividualResume string `json:"individual_resume"`
+	Role             int    `json:"role"`
 }
 
 func (u *User) AfterFind(tx *gorm.DB) (err error) {

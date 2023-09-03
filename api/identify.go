@@ -12,7 +12,10 @@ func Register(c *gin.Context) {
 	user_info := new(vo.Register_resquest)
 	c.Bind(user_info)
 	code, msg := login.Register(user_info.Email, user_info.Pwd)
-	c.JSON(code, msg)
+	c.JSON(code, vo.Register_response{
+		Code: code,
+		Msg:  msg,
+	})
 }
 
 // 用户登录
@@ -21,12 +24,14 @@ func Login(c *gin.Context) {
 	c.Bind(user_info)
 	code, data := login.Login(user_info.Email, user_info.Pwd)
 	if code != 200 {
-		c.JSON(code, vo.Login_response{
+		c.JSON(200, vo.Login_response{
+			Code:  code,
 			Msg:   data,
 			Token: "",
 		})
 	} else {
-		c.JSON(code, vo.Login_response{
+		c.JSON(200, vo.Login_response{
+			Code:  code,
 			Msg:   "登录成功",
 			Token: data,
 		})

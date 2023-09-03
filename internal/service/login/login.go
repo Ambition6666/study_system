@@ -34,6 +34,7 @@ func Register(email string, pwd string) (int, string) {
 	user.PassWord = Encrypt(pwd)
 	user.NickName = "默认昵称"
 	user.Avatar = ""
+	user.Role = 1
 	repository.Create_user(user)
 	return 200, "创建成功"
 }
