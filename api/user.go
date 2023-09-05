@@ -15,8 +15,8 @@ func GetUserInfo(c *gin.Context) {
 	id := GetUserID(c)
 	uinfo := user.GetUserInfo(id)
 	c.JSON(200, vo.Get_user_info_response{
-		Code:     200,
-		UserInfo: *uinfo,
+		Code:      200,
+		User_info: *uinfo,
 	})
 }
 

@@ -10,6 +10,8 @@ require (
 	gorm.io/gorm v1.25.4
 )
 
+require github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible // direct
+
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect

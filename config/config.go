@@ -18,6 +18,12 @@ var (
 	MysqlDbName string
 	MysqlUser   string
 	LocalPath   string
+	Email       string
+	EmailAddr   string
+	EmailAuth   string
+	EmailFrom   string
+	EmailHost   string
+	EmailExpire string
 	//MachineID   int
 )
 
@@ -34,7 +40,12 @@ func ConfigInit() {
 	MysqlDbName = viper.GetString("Mysql.dbname")
 	MysqlUser = viper.GetString("Mysql.user")
 	LocalPath = viper.GetString("localfile.path")
-	//MachineID = 1
+	Email = viper.GetString("email.email")
+	EmailAddr = viper.GetString("email.addr")
+	EmailExpire = viper.GetString("email.expire")
+	EmailAuth = viper.GetString("email.auth")
+	EmailFrom = viper.GetString("email.from")
+	EmailHost = viper.GetString("email.host")
 }
 
 // 获取配置

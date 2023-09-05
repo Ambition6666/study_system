@@ -3,20 +3,13 @@ package user
 import (
 	"fmt"
 	"studysystem/internal/repository"
-	"studysystem/vo"
+	"studysystem/models"
 )
 
 // 获取用户信息
-func GetUserInfo(id int64) *vo.UserInfo {
+func GetUserInfo(id int64) *models.User {
 	u := repository.Search_user_by_id(id)
-	uinfo := &vo.UserInfo{
-		ID:               u.ID,
-		Email:            u.Email,
-		Avatar:           u.Avatar,
-		NickName:         u.NickName,
-		IndividualResume: u.IndividualResume,
-	}
-	return uinfo
+	return u
 }
 
 // 更新用户信息

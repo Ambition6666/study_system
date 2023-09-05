@@ -1,15 +1,10 @@
 package vo
 
-type UserInfo struct {
-	ID               int64  `json:"uid" gorm:"primarykey"`
-	NickName         string `json:"nickname"`
-	Email            string `json:"email"`
-	Avatar           string `json:"avatar"`
-	IndividualResume string `json:"individual_resume"`
-}
+import "studysystem/models"
+
 type Get_user_info_response struct {
-	Code int
-	UserInfo
+	Code      int         `json:"code"`
+	User_info models.User `json:"user_info"`
 }
 type Update_user_request struct {
 	Data   string `form:"data"`

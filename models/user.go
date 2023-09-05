@@ -10,10 +10,10 @@ import (
 // 1-->普通成员
 // 2-->管理员
 type User struct {
-	gorm.Model
+	gorm.Model       `json:"-"`
 	ID               int64  `json:"uid" gorm:"primarykey"`
 	NickName         string `json:"nickname"`
-	PassWord         string `json:"password"`
+	PassWord         string `json:"-"`
 	Email            string `json:"email"`
 	Avatar           string `json:"avatar"`
 	IndividualResume string `json:"individual_resume"`

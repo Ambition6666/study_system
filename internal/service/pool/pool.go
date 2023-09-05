@@ -2,7 +2,8 @@ package pool
 
 //-------------------------------------------创建简易的协程池--------------------------------------------------------
 type Task struct {
-	F func()
+	F    func(...any) any
+	agrs []interface{}
 }
 type Pool struct {
 	EmptyChan  chan *Task
@@ -13,15 +14,16 @@ type Pool struct {
 var P *Pool
 
 // 创建新任务
-func NewTask(F func()) *Task {
+func NewTask(F func(...any) any, val ...any) *Task {
 	t := new(Task)
 	t.F = F
+	t.agrs = val
 	return t
 }
 
 // 执行
 func (t *Task) exec() {
-	t.F()
+	t.F(t.agrs)
 }
 
 // 创建新协程池

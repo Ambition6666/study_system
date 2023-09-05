@@ -11,8 +11,10 @@ func InitRouter() *gin.Engine {
 	r := gin.Default()
 	r.Use(middleware.Cors())
 	a := r.Group("/api")
-	a.POST("/login", api.Login)       //登录
-	a.POST("/register", api.Register) //注册
+	a.POST("/login", api.Login)                    //登录
+	a.POST("/loginbycode", api.Login_by_auth_code) //登录
+	a.POST("/register", api.Register)              //注册
+	a.GET("/authcode", api.GetAuthCode)            //获取验证码
 	idy := a.Group("/identified")
 	idy.Use(middleware.Auth())
 	{

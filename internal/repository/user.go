@@ -23,7 +23,7 @@ func Search_user(email string) *models.User {
 	return user
 }
 
-// 根据id查询拥护
+// 根据id查询用户
 func Search_user_by_id(id int64) *models.User {
 	db := sql.GetMysqlDB()
 	user := new(models.User)
@@ -51,13 +51,13 @@ func Update_user(id int64, action int, data string) {
 // 在redis保存头像本地地址
 func Save_local_avatar_path(id int64, data string) error {
 	rdb := sql.GetRedis()
-	return rdb.Set(context.Background(), strconv.Itoa(int(id)), data, -1).Err()
+	return rdb.Set(context.Background(), "avatar"+strconv.FormatInt(id, 10), data, -1).Err()
 }
 
 // 获取redis保存的头像地址
 func Get_local_avatar_path(id int64) (string, error) {
 	rdb := sql.GetRedis()
-	return rdb.Get(context.Background(), strconv.Itoa(int(id))).Result()
+	return rdb.Get(context.Background(), "avatar"+strconv.FormatInt(id, 10)).Result()
 }
 
 // 删除用户
