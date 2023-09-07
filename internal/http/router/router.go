@@ -23,5 +23,10 @@ func InitRouter() *gin.Engine {
 		idy.GET("/avatar/", api.GetAvatar)          //获取用户头像
 		idy.DELETE("/user", api.DeleteUser)         //删除用户
 	}
+	admin := a.Group("/admin")
+	admin.Use(middleware.Auth(), middleware.If_admin())
+	{
+		admin.POST("/addvideo", api.AddVideo)
+	}
 	return r
 }

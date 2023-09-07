@@ -18,7 +18,7 @@ func SendAuthCode(val ...any) any {
 	html := fmt.Sprintf(`<div style="text-align: center;">
 		<h2 style="color: #333;">欢迎使用，你的验证码为：</h2>
 		<h1 style="margin: 1.2em 0;">%s</h1>
-		<p style="font-size: 12px; color: #666;">请在1分钟内完成验证，过期失效，请勿告知他人，以防个人信息泄露</p>
+		<p style="font-size: 12px; color: #666;">请在5分钟内完成验证，过期失效，请勿告知他人，以防个人信息泄露</p>
 	</div>`, CreateAuthCode(to))
 	em := e.NewEmail()
 	// 设置 sender 发送方 的邮箱 ， 此处可以填写自己的邮箱

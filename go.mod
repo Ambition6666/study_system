@@ -10,6 +10,13 @@ require (
 	gorm.io/gorm v1.25.4
 )
 
+require (
+	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
+	github.com/jackc/pgx/v5 v5.3.1 // indirect
+	gorm.io/driver/postgres v1.5.2 // direct
+)
+
 require github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible // direct
 
 require (

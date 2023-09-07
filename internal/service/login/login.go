@@ -18,7 +18,7 @@ func Login(em string, pwd string) (int, string) {
 	if s != u.PassWord {
 		return 401, "密码错误"
 	}
-	token, err := GetToken(u.ID)
+	token, err := GetToken(u.ID, u.Role)
 	if err != nil {
 		return 401, "加密失败"
 	}
@@ -33,7 +33,7 @@ func Login_by_auth_code(em string, authcode string) (int, string) {
 	if code != 200 {
 		return code, msg
 	}
-	token, _ := GetToken(u.ID)
+	token, _ := GetToken(u.ID, u.Role)
 	return 200, token
 }
 

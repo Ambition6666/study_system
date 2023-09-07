@@ -3,14 +3,15 @@ server:
   port: 9090
 
 Redis:
-  host: 127.0.0.1
+  host: 192.168.1.67
   port: 6379
+  password: dream
 
 Mysql:
-  host: 127.0.0.1
+  host: 192.168.1.67
   port: 3306
-  password: root
-  dbname: studysystem
+  password: dream
+  dbname: study_system
   user: root
 
 localfile:
@@ -19,6 +20,14 @@ localfile:
 email:
   addr: smtp.qq.com:25
   host: smtp.qq.com
-  from: "study_system <xxxxxxx@qq.com>"
+  from: "study_system <xxxxxxxxx@qq.com>"
   email: xxxxxxxxx@qq.com
-  auth: xxxxxxxxxx
+  auth: xxxxxxxxxxxx
+  expire: 300
+
+pgsql:
+  host: 192.168.1.67
+  port: 5432
+  password: postgres
+  dbname: study_system
+  user: postgres

@@ -9,7 +9,7 @@ import (
 // 存储验证码
 func SetAuthCode(em string, auth_code string) error {
 	rdb := sql.GetRedis()
-	return rdb.Set(context.Background(), "auth"+em, auth_code, 180*time.Second).Err()
+	return rdb.Set(context.Background(), "auth"+em, auth_code, 300*time.Second).Err()
 }
 
 // 获取验证码

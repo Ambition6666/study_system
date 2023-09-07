@@ -46,6 +46,7 @@ func Login(c *gin.Context) {
 	}
 }
 
+// 用户验证码登录
 func Login_by_auth_code(c *gin.Context) {
 	user_info := new(vo.Login_by_auth_code_request)
 	c.Bind(user_info)
