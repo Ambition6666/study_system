@@ -21,9 +21,9 @@ email:
   addr: smtp.qq.com:25
   host: smtp.qq.com
   from: "study_system <xxxxxxxxx@qq.com>"
-  email: xxxxxxxx@qq.com
+  email: xxxxxxxxx@qq.com
   auth: xxxxxxxxxx
-  expire: 300
+  expire: 300git commit
 
 pgsql:
   host: 127.0.0.1
