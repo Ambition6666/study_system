@@ -15,14 +15,14 @@ Mysql:
   user: root
 
 localfile:
-  path: D:/images/
+  path: /home/zty/images
 
 email:
   addr: smtp.qq.com:25
   host: smtp.qq.com
-  from: "study_system <2745969694@qq.com>"
-  email: 2745969694@qq.com
-  auth: xhteefrzvgasdeig
+  from: "study_system <xxxxxxxxx@qq.com>"
+  email: xxxxxxxx@qq.com
+  auth: xxxxxxxxxx
   expire: 300
 
 pgsql:
