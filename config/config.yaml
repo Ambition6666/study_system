@@ -20,9 +20,9 @@ localfile:
 email:
   addr: smtp.qq.com:25
   host: smtp.qq.com
-  from: "study_system <xxxxxxxx@qq.com>"
-  email: xxxxxxxxxx@qq.com
-  auth: xxxxxxxxxx
+  from: "study_system <2745969694@qq.com>"
+  email: 2745969694@qq.com
+  auth: xhteefrzvgasdeig
   expire: 300
 
 pgsql:
