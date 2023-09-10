@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"studysystem/internal/service/login"
 	"studysystem/vo"
 
@@ -11,16 +12,17 @@ import (
 func Register(c *gin.Context) {
 	user_info := new(vo.Register_resquest)
 	c.Bind(user_info)
+	fmt.Println(user_info)
 	code, msg := login.IdentifyCode(user_info.Email, user_info.Code)
 	if code != 200 {
-		c.JSON(code, vo.Register_response{
+		c.JSON(200, vo.Register_response{
 			Code: code,
 			Msg:  msg,
 		})
 		return
 	}
 	code, msg = login.Register(user_info.Email, user_info.Pwd)
-	c.JSON(code, vo.Register_response{
+	c.JSON(200, vo.Register_response{
 		Code: code,
 		Msg:  msg,
 	})

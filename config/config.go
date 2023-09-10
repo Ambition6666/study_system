@@ -30,6 +30,7 @@ var (
 	PgsqlPort     string
 	PgsqlPwd      string
 	PgsqlUser     string
+	PageNum       int
 	//MachineID   int
 )
 
@@ -58,6 +59,7 @@ func ConfigInit() {
 	EmailAuth = viper.GetString("email.auth")
 	EmailFrom = viper.GetString("email.from")
 	EmailHost = viper.GetString("email.host")
+	PageNum = viper.GetInt("Video.num")
 }
 
 // 获取配置

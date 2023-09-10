@@ -11,6 +11,7 @@ type Pool struct {
 	Worker_num int
 }
 
+//定义一个全局协程池
 var P *Pool
 
 // 创建新任务
@@ -21,7 +22,7 @@ func NewTask(F func(...any) any, val ...any) *Task {
 	return t
 }
 
-// 执行
+// 执行任务
 func (t *Task) exec() {
 	t.F(t.agrs)
 }
@@ -41,6 +42,8 @@ func (p *Pool) Worker(id int) {
 		v.exec()
 	}
 }
+
+//运行协程池
 func (p *Pool) Run() {
 	for i := 1; i <= p.Worker_num; i++ {
 		go p.Worker(i)
