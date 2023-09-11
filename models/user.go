@@ -3,6 +3,7 @@ package models
 import (
 	"studysystem/config"
 
+	"github.com/lib/pq"
 	"gorm.io/gorm"
 )
 
@@ -26,4 +27,13 @@ func (u *User) AfterFind(tx *gorm.DB) (err error) {
 		u.Avatar = dir
 	}
 	return nil
+}
+
+// 用户提交记录
+type CommitRecord struct {
+	gorm.Model
+	Uid      int64         `json:"uid" gorm:"index"`
+	Qid      uint          `json:"qid" gorm:"index"`
+	MyAnswer pq.Int32Array `json:"my_answer" gorm:"type:int[]"`
+	IsTrue   bool          `json:"is_true"`
 }

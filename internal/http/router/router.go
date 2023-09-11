@@ -24,14 +24,20 @@ func InitRouter() *gin.Engine {
 		idy.DELETE("/user", api.DeleteUser)         //删除用户
 		sty := idy.Group("/study")
 		{
-			sty.POST("/getstudyroute", api.GetStudyRoute)
+			sty.POST("/getstudyroute", api.GetStudyRoute) //获取学习路线
+			sty.POST("/getquestion", api.GetProblems)     //获取题目
+			sty.POST("/answer", api.CommitAnswer)         //回答选择题
+			sty.GET("/record", api.GetRecord)             //得到答题记录
 		}
 	}
 	admin := a.Group("/admin") //管理员操作
 	admin.Use(middleware.Auth(), middleware.If_admin())
 	{
-		admin.POST("/addvideo", api.AddVideo)         //管理员添加视频
-		admin.DELETE("/deletevideo", api.DeleteVideo) //管理员删除视频
+		admin.POST("/addvideo", api.AddVideo)             //管理员添加视频
+		admin.DELETE("/deletevideo", api.DeleteVideo)     //管理员删除视频
+		admin.POST("/addproblem", api.AddProblem)         //管理员添加问题
+		admin.DELETE("/deleteproblem", api.DeleteProblem) //管理员删除问题
+		admin.POST("/addstudyroute", api.Add_study_route) //管理员添加学习路线
 	}
 	return r
 }

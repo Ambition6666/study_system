@@ -28,16 +28,3 @@ func DeleteVideo(c *gin.Context) {
 		Code: code,
 	})
 }
-
-// 获取学习路线
-func GetStudyRoute(c *gin.Context) {
-	u := new(vo.Video_list_resquest)
-	c.Bind(u)
-	code, r, vlist := video.GetVideoList(u.Line_type, u.Type, u.Offset)
-	c.JSON(200, vo.Video_list_response{
-		Code:        code,
-		Videos:      vlist,
-		Study_route: r,
-		Type:        u.Type,
-	})
-}

@@ -81,4 +81,6 @@ func RForm() {
 	DB.AutoMigrate(&models.User{})
 	DB.AutoMigrate(&models.Video{})
 	DB.AutoMigrate(&models.Study_route{})
+	PgDB.AutoMigrate(&models.Problem{})
+	PgDB.AutoMigrate(&models.CommitRecord{})
 }

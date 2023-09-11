@@ -11,3 +11,8 @@ func Get_route(line_type int) *models.Study_route {
 	db.Where("line_type = ?", line_type).Find(&route)
 	return &route
 }
+
+func Add_route(v *models.Study_route) {
+	db := sql.GetMysqlDB()
+	db.Create(v)
+}

@@ -65,3 +65,17 @@ func DeleteUser(id int64) {
 	db := sql.GetMysqlDB()
 	db.Where("id = ?", id).Delete(&models.User{})
 }
+
+// 创建答题记录
+func CreateCommitRecord(v *models.CommitRecord) {
+	pdb := sql.GetPgsql()
+	pdb.Create(v)
+}
+
+// 获取答题记录
+func GetRecord(q string, uid int64) *models.CommitRecord {
+	pdb := sql.GetPgsql()
+	v := new(models.CommitRecord)
+	pdb.Where("qid=? and uid =?", q, uid).Find(v)
+	return v
+}
