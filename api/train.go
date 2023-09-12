@@ -3,6 +3,7 @@ package api
 import (
 	"studysystem/internal/service/train"
 	"studysystem/internal/service/video"
+	websokcet "studysystem/internal/service/websocket"
 	"studysystem/vo"
 
 	"github.com/gin-gonic/gin"
@@ -43,6 +44,16 @@ func CommitAnswer(c *gin.Context) {
 		Code: code,
 		Msg:  msg,
 	})
+}
+
+// 回答编程问题
+func CommitCodeAnswer(c *gin.Context) {
+	cc := websokcet.Up(c)
+	cl := websokcet.NewClient(c.Query("uid")+c.Query("qid"), cc.RemoteAddr().String(), cc)
+	go cl.Read()
+	go cl.Write()
+	go cl.TimeOutClose()
+	websokcet.Manager.Register <- cl
 }
 
 // 获取记录

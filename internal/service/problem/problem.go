@@ -14,6 +14,7 @@ func Add_problem(v *vo.Add_problem_request) (int, string) {
 	p.Options = v.Options
 	p.VideoID = v.VideoID
 	p.ProblemType = v.ProblemType
+	p.CodeID = v.CodeID
 	repository.Add_problem(p)
 	return 200, "添加问题成功"
 }

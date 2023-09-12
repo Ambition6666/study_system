@@ -13,4 +13,5 @@ type Problem struct {
 	Options     pq.StringArray `json:"options" gorm:"type:text[]"`
 	Answer      pq.Int32Array  `json:"-" gorm:"type:int[]"`
 	ProblemType int            `json:"problem_type"`
+	CodeID      int64          `json:"code_id"` //选择题id默认为0,如果是编程题,则它存的是问题id
 }

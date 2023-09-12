@@ -15,6 +15,7 @@ func InitRouter() *gin.Engine {
 	a.POST("/loginbycode", api.Login_by_auth_code) //登录
 	a.POST("/register", api.Register)              //注册
 	a.GET("/authcode", api.GetAuthCode)            //获取验证码
+	a.GET("/answerCode", api.CommitCodeAnswer)     //题目
 	idy := a.Group("/identified")
 	idy.Use(middleware.Auth())
 	{

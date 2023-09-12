@@ -6,11 +6,11 @@ type Add_video_resquest struct {
 	Description string `form:"description"`
 	Title       string `form:"title"`
 	Line_type   int    `form:"line_type"`
-	MiniType    int    `from:"mini_type"`
-	StageType   int    `from:"stage_type"`
+	MiniType    int    `form:"mini_type"`
+	StageType   int    `form:"stage_type"`
 }
 
-//跟删除操作响应共用
+// 跟删除操作响应共用
 type Add_video_response struct {
 	Msg  string `json:"msg"`
 	Code int    `json:"code"`

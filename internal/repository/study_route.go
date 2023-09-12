@@ -7,9 +7,9 @@ import (
 
 func Get_route(line_type int) *models.Study_route {
 	db := sql.GetMysqlDB()
-	var route models.Study_route
-	db.Where("line_type = ?", line_type).Find(&route)
-	return &route
+	r := new(models.Study_route)
+	db.Where("line_type = ?", line_type).Find(r)
+	return r
 }
 
 func Add_route(v *models.Study_route) {

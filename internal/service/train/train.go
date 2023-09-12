@@ -12,7 +12,7 @@ func Get_problem_list(vid uint) (int, []models.Problem) {
 	return 200, plist
 }
 
-// 判断题目是否正确
+// 判断选择题目是否正确
 func JudgeProblem(val ...any) any {
 	intf := val[0].([]any)
 	alist := intf[0].([]int32)
@@ -48,6 +48,8 @@ func JudgeProblem(val ...any) any {
 	repository.CreateCommitRecord(v)
 	return nil
 }
+
+// 获取oj题目信息
 
 // 提交题目
 func CommitAnswer(alist []int32, qid uint, uid int64) (int, string) {
