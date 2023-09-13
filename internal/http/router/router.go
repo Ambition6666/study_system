@@ -1,13 +1,23 @@
 package router
 
 import (
+	"io"
+	"os"
 	"studysystem/api"
 	"studysystem/internal/http/middleware"
+	"studysystem/logs"
 
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouter() *gin.Engine {
+	workdir, _ := os.Getwd()
+	logfile, err := os.Create(workdir + "/logs/gin_http.log")
+	if err != nil {
+		logs.SugarLogger.Errorf("配置ginhttp日志失败:%v", err)
+	}
+	gin.SetMode(gin.DebugMode)
+	gin.DefaultWriter = io.MultiWriter(logfile)
 	r := gin.Default()
 	r.Use(middleware.Cors()) //跨域验证
 	a := r.Group("/api")

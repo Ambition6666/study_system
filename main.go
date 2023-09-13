@@ -8,10 +8,12 @@ import (
 	"studysystem/internal/service/login"
 	"studysystem/internal/service/pool"
 	websokcet "studysystem/internal/service/websocket"
+	"studysystem/logs"
 	"studysystem/sql"
 )
 
 func init() {
+	logs.InitLogger()
 	config.ConfigInit()
 	sql.InitSql()
 	pool.P = pool.NewPool()

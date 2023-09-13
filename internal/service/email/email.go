@@ -36,7 +36,6 @@ func SendAuthCode(val ...any) any {
 	//设置服务器相关的配置
 	err := em.Send(config.EmailAddr, smtp.PlainAuth("", config.Email, config.EmailAuth, config.EmailHost))
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	return nil

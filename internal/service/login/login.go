@@ -1,10 +1,10 @@
 package login
 
 import (
-	"fmt"
 	"studysystem/internal/repository"
 	"studysystem/internal/service/email"
 	"studysystem/internal/service/pool"
+	"studysystem/logs"
 	"studysystem/models"
 )
 
@@ -63,7 +63,7 @@ func SendAuthCode(em string) {
 func IdentifyCode(em string, authcode string) (int, string) {
 	res, err := repository.GetAuthCode(em)
 	if err != nil {
-		fmt.Println(err)
+		logs.SugarLogger.Debugf("获取验证码失败:", err)
 		return 401, "验证码失效"
 	}
 	if res != authcode {

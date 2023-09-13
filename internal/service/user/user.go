@@ -1,8 +1,8 @@
 package user
 
 import (
-	"fmt"
 	"studysystem/internal/repository"
+	"studysystem/logs"
 	"studysystem/models"
 )
 
@@ -20,7 +20,7 @@ func UpdateUserInfo(id int64, action int, data string) (int, string) {
 	case 2:
 		err := repository.Save_local_avatar_path(id, data)
 		if err != nil {
-			fmt.Println(err)
+			logs.SugarLogger.Debugf("更新用户信息错误:%v", err)
 			return 500, "保存头像失败"
 		}
 		repository.Update_user(id, action, "/identified/avatar/")

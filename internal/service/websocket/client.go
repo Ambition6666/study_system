@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"runtime/debug"
 	"studysystem/clients"
+	"studysystem/logs"
 	"studysystem/vo"
 	"time"
 
@@ -128,7 +129,7 @@ func CommitCodeAnswer(cl *Client, msg []byte, ctx context.Context, v *vo.Code_an
 	val := new(vo.Commit_code)
 	err := json.Unmarshal(v.Msg, val)
 	if err != nil {
-		fmt.Println("解析消息错误", err)
+		logs.SugarLogger.Debugln("解析消息错误", err)
 		return
 	}
 	res, err := clients.JudgeCli.Judge(ctx, &judge.JudgeRequest{
@@ -137,7 +138,7 @@ func CommitCodeAnswer(cl *Client, msg []byte, ctx context.Context, v *vo.Code_an
 		LangID:    val.LanguageID,
 	})
 	if err != nil || res.StatusCode != 1000 {
-		fmt.Println("提交题目:", err)
+		logs.SugarLogger.Debugln("提交题目错误", err)
 		v := vo.Commit_response{
 			Code:  500,
 			Msg:   "提交失败",
@@ -159,7 +160,7 @@ func CommitCodeAnswer(cl *Client, msg []byte, ctx context.Context, v *vo.Code_an
 		JudgeID: res.JudgeID,
 	})
 	if err != nil || res1.StatusCode != 1000 {
-		fmt.Println("获取结果:", err)
+		logs.SugarLogger.Debugln("获取结果:", err)
 		v := vo.Commit_code_response{
 			Code:  500,
 			Msg:   res1.Result,

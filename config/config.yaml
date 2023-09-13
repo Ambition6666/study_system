@@ -22,7 +22,7 @@ email:
   host: smtp.qq.com
   from: "study_system <2745969694@qq.com>"
   email: 2745969694@qq.com
-  auth: xxxxxxx
+  auth: xxxxxxxx
   expire: 300
 
 pgsql:

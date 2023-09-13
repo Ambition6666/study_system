@@ -1,5 +1,7 @@
 package pool
 
+import "studysystem/logs"
+
 //-------------------------------------------创建简易的协程池--------------------------------------------------------
 type Task struct {
 	F    func(...any) any
@@ -24,7 +26,12 @@ func NewTask(F func(...any) any, val ...any) *Task {
 
 // 执行任务
 func (t *Task) exec() {
-	t.F(t.agrs)
+	err := t.F(t.agrs)
+	e, ok := err.(error)
+	if !ok {
+		return
+	}
+	logs.SugarLogger.Debugf("协程中的错误:%v", e)
 }
 
 // 创建新协程池
