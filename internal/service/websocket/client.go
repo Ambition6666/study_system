@@ -6,11 +6,14 @@ import (
 	"fmt"
 	"runtime/debug"
 	"studysystem/clients"
+	"studysystem/internal/repository"
 	"studysystem/logs"
+	"studysystem/models"
 	"studysystem/vo"
 	"time"
 
-	judge "studysystem/api/proto"
+	judge "studysystem/api/proto/judge"
+	problemrpc "studysystem/api/proto/problem"
 
 	web "github.com/gorilla/websocket"
 )
@@ -101,9 +104,9 @@ func ParseDate(cl *Client, msg []byte) {
 	ctx := context.Background()
 	switch v.MType {
 	case "1":
-		GetCodeProblem(cl, msg, ctx, v)
+		GetCodeProblem(cl, ctx, v)
 	case "2":
-		CommitCodeAnswer(cl, msg, ctx, v)
+		CommitCodeAnswer(cl, ctx, v)
 	case "3":
 		Manager.IsLogin <- cl
 	default:
@@ -125,15 +128,16 @@ func (c *Client) TimeOutClose() {
 }
 
 // 提交题目
-func CommitCodeAnswer(cl *Client, msg []byte, ctx context.Context, v *vo.Code_answer) {
+func CommitCodeAnswer(cl *Client, ctx context.Context, v *vo.Code_answer) {
 	val := new(vo.Commit_code)
 	err := json.Unmarshal(v.Msg, val)
 	if err != nil {
 		logs.SugarLogger.Debugln("解析消息错误", err)
 		return
 	}
+	q := repository.Get_problem(val.QID)
 	res, err := clients.JudgeCli.Judge(ctx, &judge.JudgeRequest{
-		ProblemID: val.QID,
+		ProblemID: q.CodeID,
 		Code:      []byte(val.Code),
 		LangID:    val.LanguageID,
 	})
@@ -177,8 +181,48 @@ func CommitCodeAnswer(cl *Client, msg []byte, ctx context.Context, v *vo.Code_an
 		}
 		msg, _ := json.Marshal(v)
 		cl.SendMessage(msg)
+		record := new(models.CommitRecord)
+		record.Qid = q.ID
+		if res1.Result.Status == 10 {
+			record.IsTrue = true
+		} else {
+			record.IsTrue = false
+		}
+		record.Uid = int64(val.UID)
+		repository.CreateCommitRecord(record)
 	}
 }
-func GetCodeProblem(cl *Client, msg []byte, ctx context.Context, v *vo.Code_answer) {
+func GetCodeProblem(cl *Client, ctx context.Context, v *vo.Code_answer) {
+	val := new(vo.Get_problem)
+	err := json.Unmarshal(v.Msg, val)
+	if err != nil {
+		logs.SugarLogger.Debugln("解析消息错误", err)
+		return
+	}
+	q := repository.Get_problem(val.QID)
+	res, err := clients.ProCli.GetProblem(context.Background(), &problemrpc.GetProblemRequest{
+		ProblemID: q.CodeID,
+	})
+	if err != nil {
+		logs.SugarLogger.Debugln("获取问题错误", err)
+	}
+	if res.StatusCode != 1000 {
+		v := vo.Get_problem_response{
+			Code:  500,
+			Msg:   res.Problem,
+			MType: 1,
+		}
+		msg, _ := json.Marshal(v)
+		cl.SendMessage(msg)
+		return
+	} else {
+		v := vo.Get_problem_response{
+			Code:  200,
+			Msg:   res.Problem,
+			MType: 1,
+		}
+		msg, _ := json.Marshal(v)
+		cl.SendMessage(msg)
+	}
 
 }

@@ -1,8 +1,6 @@
 package models
 
 import (
-	"studysystem/config"
-
 	"github.com/lib/pq"
 	"gorm.io/gorm"
 )
@@ -19,14 +17,6 @@ type User struct {
 	Avatar           string `json:"avatar"`
 	IndividualResume string `json:"individual_resume"`
 	Role             int    `json:"role"`
-}
-
-func (u *User) AfterFind(tx *gorm.DB) (err error) {
-	dir := "http://" + config.ServerHost + ":" + config.ServerPort + "/identified/avatar/"
-	if u.Avatar != dir {
-		u.Avatar = dir
-	}
-	return nil
 }
 
 // 用户提交记录

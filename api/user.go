@@ -1,10 +1,12 @@
 package api
 
 import (
-	"fmt"
+	"path"
+	"path/filepath"
+	"strconv"
 	"studysystem/config"
-	"studysystem/internal/repository"
 	"studysystem/internal/service/user"
+	"studysystem/logs"
 	"studysystem/vo"
 
 	"github.com/gin-gonic/gin"
@@ -31,9 +33,19 @@ func UpdateUserInfo(c *gin.Context) {
 				Code: 500,
 				Data: "传输失败",
 			})
+			logs.SugarLogger.Errorf("传输失败:%v", err)
 		}
-		c.SaveUploadedFile(file, config.LocalPath+file.Filename)
-		code, data := user.UpdateUserInfo(id, 2, config.LocalPath+file.Filename)
+		lname := path.Ext(file.Filename)
+		file.Filename = strconv.FormatInt(id, 10) + lname
+		err = c.SaveUploadedFile(file, filepath.Join(config.LocalPath, "avatar", file.Filename))
+		if err != nil {
+			c.JSON(200, vo.Update_user_response{
+				Code: 500,
+				Data: "上传失败",
+			})
+			logs.SugarLogger.Errorf("上传失败:%v", err)
+		}
+		code, data := user.UpdateUserInfo(id, 2, file.Filename)
 		c.JSON(200, vo.Update_user_response{
 			Code: code,
 			Data: data,
@@ -58,18 +70,4 @@ func DeleteUser(c *gin.Context) {
 		Code: code,
 		Data: data,
 	})
-}
-
-// 获取用户头像
-func GetAvatar(c *gin.Context) {
-	id := GetUserID(c)
-	data, err := repository.Get_local_avatar_path(id)
-	if err != nil {
-		fmt.Println(err)
-		c.JSON(200, gin.H{
-			"code": 500,
-			"msg":  "获取失败",
-		})
-	}
-	c.File(data)
 }

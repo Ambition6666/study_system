@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"context"
-	"strconv"
 	"studysystem/models"
 	"studysystem/sql"
 )
@@ -48,17 +46,17 @@ func Update_user(id int64, action int, data string) {
 	db.Save(u)
 }
 
-// 在redis保存头像本地地址
-func Save_local_avatar_path(id int64, data string) error {
-	rdb := sql.GetRedis()
-	return rdb.Set(context.Background(), "avatar"+strconv.FormatInt(id, 10), data, -1).Err()
-}
+// // 在redis保存头像本地地址
+// func Save_local_avatar_path(id int64, data string) error {
+// 	rdb := sql.GetRedis()
+// 	return rdb.Set(context.Background(), "avatar"+strconv.FormatInt(id, 10), data, -1).Err()
+// }
 
-// 获取redis保存的头像地址
-func Get_local_avatar_path(id int64) (string, error) {
-	rdb := sql.GetRedis()
-	return rdb.Get(context.Background(), "avatar"+strconv.FormatInt(id, 10)).Result()
-}
+// // 获取redis保存的头像地址
+// func Get_local_avatar_path(id int64) (string, error) {
+// 	rdb := sql.GetRedis()
+// 	return rdb.Get(context.Background(), "avatar"+strconv.FormatInt(id, 10)).Result()
+// }
 
 // 删除用户
 func DeleteUser(id int64) {

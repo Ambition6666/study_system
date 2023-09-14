@@ -4,7 +4,7 @@
 // 	protoc        v4.23.4
 // source: judge.proto
 
-package clients
+package judgerpc
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

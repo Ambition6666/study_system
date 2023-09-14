@@ -22,11 +22,16 @@ func init() {
 }
 func main() {
 	defer Close()
-	c, e := clients.InitJudgeGRPC()
+	jc, e := clients.InitJudgeGRPC()
 	if e != nil {
 		fmt.Println("初始化失败")
 	}
-	defer c.Close()
+	defer jc.Close()
+	pc, e := clients.InitProGRPC()
+	if e != nil {
+		fmt.Println("初始化失败")
+	}
+	defer pc.Close()
 	sql.RForm()
 	go pool.P.Run()
 	go websokcet.Manager.Start()

@@ -29,6 +29,6 @@ func Get_problem(qid uint) *models.Problem {
 func Get_problem_list(vid uint) []models.Problem {
 	db := sql.GetPgsql()
 	plist := make([]models.Problem, 0)
-	db.Where("video_id = ?", vid).First(&plist)
+	db.Where("video_id = ?", vid).Find(&plist)
 	return plist
 }

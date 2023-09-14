@@ -2,7 +2,7 @@ package clients
 
 import (
 	"fmt"
-	judge "studysystem/api/proto/judge"
+	pro "studysystem/api/proto/problem"
 
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/naming/resolver"
@@ -11,9 +11,9 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var JudgeCli judge.JudgeServiceClient
+var ProCli pro.PrivateServiceClient
 
-func InitJudgeGRPC() (*grpc.ClientConn, error) {
+func InitProGRPC() (*grpc.ClientConn, error) {
 	// etcd
 	etcdCli, err := clientv3.NewFromURL("192.168.1.67:2379")
 	if err != nil {
@@ -24,7 +24,7 @@ func InitJudgeGRPC() (*grpc.ClientConn, error) {
 		return nil, err
 	}
 	// dial
-	conn, err := grpc.Dial("etcd:///"+"judge",
+	conn, err := grpc.Dial("etcd:///"+"private",
 		grpc.WithResolvers(etcdResolver),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultServiceConfig(fmt.Sprintf(`{"LoadBalancingPolicy": "%s"}`, roundrobin.Name)),
@@ -33,6 +33,6 @@ func InitJudgeGRPC() (*grpc.ClientConn, error) {
 		return conn, err
 	}
 	// new client
-	JudgeCli = judge.NewJudgeServiceClient(conn)
+	ProCli = pro.NewPrivateServiceClient(conn)
 	return conn, nil
 }

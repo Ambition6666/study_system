@@ -3,7 +3,9 @@ package router
 import (
 	"io"
 	"os"
+	"path/filepath"
 	"studysystem/api"
+	"studysystem/config"
 	"studysystem/internal/http/middleware"
 	"studysystem/logs"
 
@@ -19,6 +21,7 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(gin.DebugMode)
 	gin.DefaultWriter = io.MultiWriter(logfile)
 	r := gin.Default()
+	r.Static("/api/static", filepath.Join(config.LocalPath, "avatar"))
 	r.Use(middleware.Cors()) //跨域验证
 	a := r.Group("/api")
 	a.POST("/login", api.Login)                    //登录
@@ -31,7 +34,6 @@ func InitRouter() *gin.Engine {
 	{
 		idy.GET("/userinfo", api.GetUserInfo)       //获取用户信息
 		idy.POST("/updateinfo", api.UpdateUserInfo) //更新用户信息
-		idy.GET("/avatar/", api.GetAvatar)          //获取用户头像
 		idy.DELETE("/user", api.DeleteUser)         //删除用户
 		sty := idy.Group("/study")
 		{

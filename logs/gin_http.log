@@ -4,6 +4,8 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
+[GIN-debug] GET    /api/static/*filepath     --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
+[GIN-debug] HEAD   /api/static/*filepath     --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (3 handlers)
 [GIN-debug] POST   /api/login                --> studysystem/api.Login (4 handlers)
 [GIN-debug] POST   /api/loginbycode          --> studysystem/api.Login_by_auth_code (4 handlers)
 [GIN-debug] POST   /api/register             --> studysystem/api.Register (4 handlers)
@@ -11,7 +13,6 @@
 [GIN-debug] GET    /api/answerCode           --> studysystem/api.CommitCodeAnswer (4 handlers)
 [GIN-debug] GET    /api/identified/userinfo  --> studysystem/api.GetUserInfo (5 handlers)
 [GIN-debug] POST   /api/identified/updateinfo --> studysystem/api.UpdateUserInfo (5 handlers)
-[GIN-debug] GET    /api/identified/avatar/   --> studysystem/api.GetAvatar (5 handlers)
 [GIN-debug] DELETE /api/identified/user      --> studysystem/api.DeleteUser (5 handlers)
 [GIN-debug] POST   /api/identified/study/getstudyroute --> studysystem/api.GetStudyRoute (5 handlers)
 [GIN-debug] POST   /api/identified/study/getquestion --> studysystem/api.GetProblems (5 handlers)
@@ -25,5 +26,6 @@
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :9090
-[GIN] 2023/09/13 - 14:00:11 | 200 |       232.6µs |       127.0.0.1 | GET      "/api/authcode?email=2745969694@qq.com"
-[GIN] 2023/09/13 - 14:04:43 | 200 |     14.6767ms |       127.0.0.1 | POST     "/api/identified/updateinfo"
+[GIN] 2023/09/14 - 15:55:38 | 200 |    1.5788467s |       127.0.0.1 | POST     "/api/identified/updateinfo"
+[GIN] 2023/09/14 - 15:55:44 | 200 |     26.1699ms |       127.0.0.1 | GET      "/api/identified/userinfo"
+[GIN] 2023/09/14 - 15:56:02 | 200 |     72.8482ms |       127.0.0.1 | GET      "/api/static/109090121504133120.jpg"

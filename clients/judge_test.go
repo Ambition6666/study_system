@@ -3,7 +3,7 @@ package clients
 import (
 	"context"
 	"fmt"
-	judge "studysystem/api/proto"
+	judge "studysystem/api/proto/judge"
 	"testing"
 )
 
