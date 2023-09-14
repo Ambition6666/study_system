@@ -2,8 +2,8 @@ package vo
 
 import (
 	"encoding/json"
-	judge "studysystem/api/proto/judge"
-	problemrpc "studysystem/api/proto/problem"
+	pri "studysystem/api/proto/private"
+
 	"studysystem/models"
 )
 
@@ -79,9 +79,9 @@ type Get_problem struct {
 
 // 获取编程问题响应
 type Get_problem_response struct {
-	Code  int                 `json:"code"`
-	Msg   *problemrpc.Problem `json:"msg"`
-	MType int                 `json:"type"`
+	Code  int          `json:"code"`
+	Msg   *pri.Problem `json:"msg"`
+	MType int          `json:"type"`
 }
 
 // 提交代码响应
@@ -93,7 +93,7 @@ type Commit_response struct {
 
 // 编程题是否做对响应
 type Commit_code_response struct {
-	Code  int                `json:"code"`
-	Msg   *judge.JudgeResult `json:"msg"`
-	MType int                `json:"type"`
+	Code  int              `json:"code"`
+	Msg   *pri.JudgeResult `json:"msg"`
+	MType int              `json:"type"`
 }

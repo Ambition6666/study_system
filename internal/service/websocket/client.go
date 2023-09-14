@@ -12,8 +12,9 @@ import (
 	"studysystem/vo"
 	"time"
 
-	judge "studysystem/api/proto/judge"
-	problemrpc "studysystem/api/proto/problem"
+	rpc "studysystem/clients"
+
+	pri "studysystem/api/proto/private"
 
 	web "github.com/gorilla/websocket"
 )
@@ -136,7 +137,7 @@ func CommitCodeAnswer(cl *Client, ctx context.Context, v *vo.Code_answer) {
 		return
 	}
 	q := repository.Get_problem(val.QID)
-	res, err := clients.JudgeCli.Judge(ctx, &judge.JudgeRequest{
+	res, err := rpc.ProCli.Judge(ctx, &pri.JudgeRequest{
 		ProblemID: q.CodeID,
 		Code:      []byte(val.Code),
 		LangID:    val.LanguageID,
@@ -160,7 +161,7 @@ func CommitCodeAnswer(cl *Client, ctx context.Context, v *vo.Code_answer) {
 		msg, _ := json.Marshal(v)
 		cl.SendMessage(msg)
 	}
-	res1, err := clients.JudgeCli.GetResult(ctx, &judge.GetResultRequest{
+	res1, err := rpc.ProCli.GetResult(ctx, &pri.GetResultRequest{
 		JudgeID: res.JudgeID,
 	})
 	if err != nil || res1.StatusCode != 1000 {
@@ -200,7 +201,7 @@ func GetCodeProblem(cl *Client, ctx context.Context, v *vo.Code_answer) {
 		return
 	}
 	q := repository.Get_problem(val.QID)
-	res, err := clients.ProCli.GetProblem(context.Background(), &problemrpc.GetProblemRequest{
+	res, err := clients.ProCli.GetProblem(context.Background(), &pri.GetProblemRequest{
 		ProblemID: q.CodeID,
 	})
 	if err != nil {

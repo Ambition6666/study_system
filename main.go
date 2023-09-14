@@ -21,23 +21,20 @@ func init() {
 	websokcet.Manager = *websokcet.NewClientManager()
 }
 func main() {
-	defer Close()
-	jc, e := clients.InitJudgeGRPC()
+	//defer Close()
+
+	c, e := clients.InitProGRPC()
 	if e != nil {
 		fmt.Println("初始化失败")
 	}
-	defer jc.Close()
-	pc, e := clients.InitProGRPC()
-	if e != nil {
-		fmt.Println("初始化失败")
-	}
-	defer pc.Close()
+	defer c.Close()
 	sql.RForm()
 	go pool.P.Run()
 	go websokcet.Manager.Start()
 	r := router.InitRouter()
 	r.Run(":" + config.ServerPort)
 }
-func Close() {
 
-}
+// func Close() {
+
+// }

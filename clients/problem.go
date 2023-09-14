@@ -2,7 +2,7 @@ package clients
 
 import (
 	"fmt"
-	pro "studysystem/api/proto/problem"
+	pro "studysystem/api/proto/private"
 
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/naming/resolver"
