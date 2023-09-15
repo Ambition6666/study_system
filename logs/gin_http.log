@@ -26,6 +26,6 @@
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :9090
-[GIN] 2023/09/14 - 15:55:38 | 200 |    1.5788467s |       127.0.0.1 | POST     "/api/identified/updateinfo"
-[GIN] 2023/09/14 - 15:55:44 | 200 |     26.1699ms |       127.0.0.1 | GET      "/api/identified/userinfo"
-[GIN] 2023/09/14 - 15:56:02 | 200 |     72.8482ms |       127.0.0.1 | GET      "/api/static/109090121504133120.jpg"
+[GIN] 2023/09/15 - 21:24:13 | 200 |    1.2991733s |       127.0.0.1 | POST     "/api/admin/addproblem"
+[GIN] 2023/09/15 - 21:31:51 | 200 |     11.5834ms |       127.0.0.1 | POST     "/api/identified/study/getstudyroute"
+[GIN] 2023/09/15 - 21:32:20 | 200 |    775.0095ms |       127.0.0.1 | POST     "/api/admin/addproblem"

@@ -97,3 +97,16 @@ type Commit_code_response struct {
 	Msg   *pri.JudgeResult `json:"msg"`
 	MType int              `json:"type"`
 }
+
+// 阶段测试请求
+type Test_resquest struct {
+	Line_type  int `form:"line_type"`
+	State_type int `form:"state_type"`
+}
+type Test_response struct {
+	Code int              `form:"code"`
+	Data []models.Problem `form:"data"`
+}
+type Test_commit_resquest struct {
+	Answer []json.RawMessage `json:"answer"`
+}

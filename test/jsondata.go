@@ -2,10 +2,15 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 func main() {
-	var msg string
-	//json.Unmarshal([]byte("eyJUaW1lIjo0MSwiTWVtb3J5IjoyNDQ2OTUwNCwiU3RhdHVzIjoxMCwiTWVzc2FnZSI6IkFjY2VwdGVkIn0="), msg)
-	fmt.Println(msg)
+
+	rand.New(rand.NewSource(time.Now().Unix()))
+	// 生成一个包含 0 到 9 的随机排列
+	randomPerm := rand.Perm(100)
+
+	fmt.Println("Random permutation:", randomPerm[:10])
 }

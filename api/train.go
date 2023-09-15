@@ -65,3 +65,21 @@ func GetRecord(c *gin.Context) {
 		Answer_record: *r,
 	})
 }
+
+// 获取测试
+func GetTest(c *gin.Context) {
+	v := new(vo.Test_resquest)
+	c.Bind(v)
+	code, data := train.Get_test(v.Line_type, v.State_type)
+	c.JSON(200, vo.Test_response{
+		Code: code,
+		Data: data,
+	})
+}
+
+// 测试提交
+func TestCommitAnswer(c *gin.Context) {
+	v := new(vo.Test_commit_resquest)
+	c.BindJSON(v)
+
+}

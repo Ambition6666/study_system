@@ -34,6 +34,7 @@ func UpdateUserInfo(c *gin.Context) {
 				Data: "传输失败",
 			})
 			logs.SugarLogger.Errorf("传输失败:%v", err)
+			return
 		}
 		lname := path.Ext(file.Filename)
 		file.Filename = strconv.FormatInt(id, 10) + lname

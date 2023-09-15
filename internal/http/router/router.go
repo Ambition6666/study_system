@@ -40,6 +40,7 @@ func InitRouter() *gin.Engine {
 			sty.POST("/getstudyroute", api.GetStudyRoute) //获取学习路线
 			sty.POST("/getquestion", api.GetProblems)     //获取题目
 			sty.POST("/answer", api.CommitAnswer)         //回答选择题
+			sty.POST("/test", api.GetTest)                //获取测试题目
 			sty.GET("/record", api.GetRecord)             //得到答题记录
 		}
 	}

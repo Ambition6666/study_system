@@ -1,9 +1,11 @@
 package train
 
 import (
+	"encoding/json"
 	"studysystem/internal/repository"
 	"studysystem/internal/service/pool"
 	"studysystem/models"
+	"studysystem/vo"
 )
 
 // 获取题目
@@ -61,4 +63,20 @@ func CommitAnswer(alist []int32, qid uint, uid int64) (int, string) {
 func GetRecord(q string, uid int64) (int, *models.CommitRecord) {
 	v := repository.GetRecord(q, uid)
 	return 200, v
+}
+
+// 获取测试
+func Get_test(l int, s int) (int, []models.Problem) {
+	v := repository.Get__rand_problem_list(repository.Get__rand_problem(l, s, 1, 10))
+	v = append(v, repository.Get__rand_problem_list(repository.Get__rand_problem(l, s, 2, 3))...)
+	return 200, v
+}
+
+// 提交测试
+func Commit_Test_answer(list []json.RawMessage) {
+	for i := 0; i < 10; i++ {
+		data := new(vo.Commit_answer_resquest)
+		json.Unmarshal(list[i], data)
+
+	}
 }
