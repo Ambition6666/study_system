@@ -37,8 +37,8 @@ type Problem_list_response struct {
 
 // 选择题提交答案请求
 type Commit_answer_resquest struct {
-	Qid    uint    `form:"qid"`
-	Answer []int32 `form:"answer"`
+	Qid    uint    `form:"qid" json:"qid"`
+	Answer []int32 `form:"answer" json:"answer"`
 }
 
 // 选择题提交答案是否成功响应
@@ -63,6 +63,13 @@ type Code_answer struct {
 type Commit_code struct {
 	UID        uint   `json:"uid"`
 	QID        uint   `json:"qid"`
+	Code       string `json:"code"`
+	LanguageID int64  `json:"language_id"`
+}
+
+// 调试代码
+type Debug_code struct {
+	Input      string `json:"input"`
 	Code       string `json:"code"`
 	LanguageID int64  `json:"language_id"`
 }
@@ -98,15 +105,43 @@ type Commit_code_response struct {
 	MType int              `json:"type"`
 }
 
+// 调试代码响应
+type debug_code_response struct {
+	Code  int              `json:"code"`
+	Msg   *pri.JudgeResult `json:"msg"`
+	MType int              `json:"type"`
+}
+
 // 阶段测试请求
 type Test_resquest struct {
 	Line_type  int `form:"line_type"`
 	State_type int `form:"state_type"`
 }
+
+// 测试响应
 type Test_response struct {
 	Code int              `form:"code"`
 	Data []models.Problem `form:"data"`
 }
+
+// 提交测试
 type Test_commit_resquest struct {
 	Answer []json.RawMessage `json:"answer"`
+}
+
+// 测试结果
+type Test_res struct {
+	Istrue bool `json:"istrue"`
+	QID    uint `json:"qid"`
+}
+
+type Test_res_s struct {
+	Res   []Test_res `json:"res"`
+	Score int        `json:"score"`
+}
+
+// 提交测试响应
+type Test_commit_response struct {
+	Code int        `json:"code"`
+	Data Test_res_s `json:"data"`
 }

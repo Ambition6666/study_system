@@ -79,7 +79,12 @@ func GetTest(c *gin.Context) {
 
 // 测试提交
 func TestCommitAnswer(c *gin.Context) {
+	uid := GetUserID(c)
 	v := new(vo.Test_commit_resquest)
 	c.BindJSON(v)
-
+	code, data := train.Commit_Test_answer(uid, v.Answer)
+	c.JSON(200, vo.Test_commit_response{
+		Code: code,
+		Data: *data,
+	})
 }

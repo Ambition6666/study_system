@@ -41,6 +41,7 @@ func InitRouter() *gin.Engine {
 			sty.POST("/getquestion", api.GetProblems)     //获取题目
 			sty.POST("/answer", api.CommitAnswer)         //回答选择题
 			sty.POST("/test", api.GetTest)                //获取测试题目
+			sty.POST("/testres", api.TestCommitAnswer)    //提交答案并获取测试结果
 			sty.GET("/record", api.GetRecord)             //得到答题记录
 		}
 	}

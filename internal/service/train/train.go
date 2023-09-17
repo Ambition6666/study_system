@@ -1,11 +1,18 @@
 package train
 
 import (
+	"context"
 	"encoding/json"
 	"studysystem/internal/repository"
 	"studysystem/internal/service/pool"
+	"studysystem/logs"
 	"studysystem/models"
 	"studysystem/vo"
+	"sync"
+
+	rpc "studysystem/clients"
+
+	pri "studysystem/api/proto/private"
 )
 
 // 获取题目
@@ -15,11 +22,12 @@ func Get_problem_list(vid uint) (int, []models.Problem) {
 }
 
 // 判断选择题目是否正确
-func JudgeProblem(val ...any) any {
+func JudgeProblem(val ...any) []any {
 	intf := val[0].([]any)
 	alist := intf[0].([]int32)
 	qid := intf[1].(uint)
 	uid := intf[2].(int64)
+	//res := intf[3].(chan any)
 	istrue := true
 	v := new(models.CommitRecord)
 	p := repository.Get_problem(qid)
@@ -33,7 +41,10 @@ func JudgeProblem(val ...any) any {
 		v.Qid = qid
 		v.Uid = uid
 		repository.CreateCommitRecord(v)
-		return nil
+		n := new(vo.Test_res)
+		n.Istrue = false
+		n.QID = qid
+		return []any{n, nil}
 	}
 	for i := 0; i < len(alist); i++ {
 		if myanswer[alist[i]] == 1 {
@@ -47,8 +58,11 @@ func JudgeProblem(val ...any) any {
 	v.MyAnswer = myanswer
 	v.Qid = qid
 	v.Uid = uid
+	n := new(vo.Test_res)
+	n.Istrue = false
+	n.QID = qid
 	repository.CreateCommitRecord(v)
-	return nil
+	return []any{n, nil}
 }
 
 // 获取oj题目信息
@@ -73,10 +87,73 @@ func Get_test(l int, s int) (int, []models.Problem) {
 }
 
 // 提交测试
-func Commit_Test_answer(list []json.RawMessage) {
+func Commit_Test_answer(uid int64, list []json.RawMessage) (int, *vo.Test_res_s) {
+	testres := new(vo.Test_res_s)
+	res := make(chan any, 10)
+	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
+		wg.Add(1)
 		data := new(vo.Commit_answer_resquest)
 		json.Unmarshal(list[i], data)
-
+		t := pool.NewTask(JudgeProblem, data.Answer, data.Qid, uid)
+		pool.P.EmptyChan <- t
+		go func() {
+			defer wg.Done()
+			res <- t.Result
+		}()
 	}
+	wg.Wait()
+	close(res)
+	//判断题目
+	for val := range res {
+		v, ok := val.(vo.Test_res)
+		if !ok {
+			logs.SugarLogger.Debugln("接口失败")
+			return 500, nil
+		}
+		if v.Istrue {
+			testres.Score += 4
+			testres.Res = append(testres.Res, v)
+		}
+	}
+	for i := 10; i < 13; i++ {
+		// wg.Add(1)
+		data := new(vo.Commit_code)
+		err := json.Unmarshal(list[i], data)
+		if err != nil {
+			logs.SugarLogger.Debugln("解析消息错误", err)
+		}
+		q := repository.Get_problem(data.QID)
+		res, err := rpc.ProCli.Judge(context.Background(), &pri.JudgeRequest{
+			ProblemID: q.CodeID,
+			Code:      []byte(data.Code),
+			LangID:    data.LanguageID,
+		})
+		if err != nil {
+			logs.SugarLogger.Debugln("判题错误:", err)
+			return 500, nil
+		}
+		res1, err := rpc.ProCli.GetResult(context.Background(), &pri.GetResultRequest{
+			JudgeID: res.JudgeID,
+		})
+		if err != nil {
+			logs.SugarLogger.Debugln("判题错误:", err)
+			return 500, nil
+		}
+		if res1.Result.Status == 10 {
+			v := vo.Test_res{
+				QID:    data.QID,
+				Istrue: true,
+			}
+			testres.Score += 20
+			testres.Res = append(testres.Res, v)
+		} else {
+			v := vo.Test_res{
+				QID:    data.QID,
+				Istrue: false,
+			}
+			testres.Res = append(testres.Res, v)
+		}
+	}
+	return 200, testres
 }

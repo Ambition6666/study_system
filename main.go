@@ -21,8 +21,7 @@ func init() {
 	websokcet.Manager = *websokcet.NewClientManager()
 }
 func main() {
-	//defer Close()
-
+	defer Close()
 	c, e := clients.InitProGRPC()
 	if e != nil {
 		fmt.Println("初始化失败")
@@ -34,7 +33,6 @@ func main() {
 	r := router.InitRouter()
 	r.Run(":" + config.ServerPort)
 }
-
-// func Close() {
-
-// }
+func Close() {
+	pool.P.Close()
+}

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"runtime/debug"
-	"studysystem/clients"
 	"studysystem/internal/repository"
 	"studysystem/logs"
 	"studysystem/models"
@@ -95,6 +94,8 @@ func (c *Client) Read() {
 		ParseDate(c, msg)
 	}
 }
+
+// 解析消息
 func ParseDate(cl *Client, msg []byte) {
 	v := new(vo.Code_answer)
 	err := json.Unmarshal(msg, v)
@@ -110,6 +111,8 @@ func ParseDate(cl *Client, msg []byte) {
 		CommitCodeAnswer(cl, ctx, v)
 	case "3":
 		Manager.IsLogin <- cl
+	case "4":
+		DebugProblem(cl, ctx, v)
 	default:
 		return
 	}
@@ -193,6 +196,8 @@ func CommitCodeAnswer(cl *Client, ctx context.Context, v *vo.Code_answer) {
 		repository.CreateCommitRecord(record)
 	}
 }
+
+// 获取问题详情
 func GetCodeProblem(cl *Client, ctx context.Context, v *vo.Code_answer) {
 	val := new(vo.Get_problem)
 	err := json.Unmarshal(v.Msg, val)
@@ -201,11 +206,12 @@ func GetCodeProblem(cl *Client, ctx context.Context, v *vo.Code_answer) {
 		return
 	}
 	q := repository.Get_problem(val.QID)
-	res, err := clients.ProCli.GetProblem(context.Background(), &pri.GetProblemRequest{
+	res, err := rpc.ProCli.GetProblem(context.Background(), &pri.GetProblemRequest{
 		ProblemID: q.CodeID,
 	})
 	if err != nil {
 		logs.SugarLogger.Debugln("获取问题错误", err)
+		return
 	}
 	if res.StatusCode != 1000 {
 		v := vo.Get_problem_response{
@@ -226,4 +232,43 @@ func GetCodeProblem(cl *Client, ctx context.Context, v *vo.Code_answer) {
 		cl.SendMessage(msg)
 	}
 
+}
+
+// 调试代码
+func DebugProblem(cl *Client, ctx context.Context, v *vo.Code_answer) {
+	val := new(vo.Debug_code)
+	err := json.Unmarshal(v.Msg, val)
+	if err != nil {
+		logs.SugarLogger.Debugln("解析消息错误", err)
+		return
+	}
+	res, err := rpc.ProCli.Debug(ctx, &pri.DebugRequest{
+		Code:   []byte(val.Code),
+		Input:  []byte(val.Input),
+		LangID: val.LanguageID,
+	})
+	if err != nil {
+		logs.SugarLogger.Debugln("debug错误", err)
+		return
+	}
+	if res.StatusCode != 1000 {
+		logs.SugarLogger.Debugln("获取结果:", err)
+		v := vo.Commit_code_response{
+			Code:  500,
+			Msg:   res.Result,
+			MType: 2,
+		}
+		msg, _ := json.Marshal(v)
+		cl.SendMessage(msg)
+		return
+	} else {
+		v := vo.Commit_code_response{
+			Code:  200,
+			Msg:   res.Result,
+			MType: 2,
+		}
+		msg, _ := json.Marshal(v)
+		cl.SendMessage(msg)
+		return
+	}
 }

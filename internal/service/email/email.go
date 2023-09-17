@@ -11,7 +11,7 @@ import (
 )
 
 // ---------------------发送验证码----------------------------------
-func SendAuthCode(val ...any) any {
+func SendAuthCode(val ...any) []any {
 	v := val[0].([]any)
 	to := v[0].(string)
 	subject := "【study_system】邮箱验证"
@@ -35,10 +35,7 @@ func SendAuthCode(val ...any) any {
 	//fmt.Println(config.EmailAddr, config.Email, config.EmailAuth, config.EmailHost, config.EmailFrom)
 	//设置服务器相关的配置
 	err := em.Send(config.EmailAddr, smtp.PlainAuth("", config.Email, config.EmailAuth, config.EmailHost))
-	if err != nil {
-		return err
-	}
-	return nil
+	return []any{err}
 }
 func CreateAuthCode(em string) string {
 	code := fmt.Sprintf("%d", tools.Randnum(900000)+100000)
