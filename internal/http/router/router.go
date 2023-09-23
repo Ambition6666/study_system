@@ -8,6 +8,7 @@ import (
 	"studysystem/config"
 	"studysystem/internal/http/middleware"
 	"studysystem/logs"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +23,8 @@ func InitRouter() *gin.Engine {
 	gin.DefaultWriter = io.MultiWriter(logfile)
 	r := gin.Default()
 	r.Static("/api/static", filepath.Join(config.LocalPath, "avatar"))
-	r.Use(middleware.Cors()) //跨域验证
+	r.Use(middleware.RateLimitMiddleware(time.Second, 100, 100)) //限流
+	r.Use(middleware.Cors())                                     //跨域验证
 	a := r.Group("/api")
 	a.POST("/login", api.Login)                    //登录
 	a.POST("/loginbycode", api.Login_by_auth_code) //登录

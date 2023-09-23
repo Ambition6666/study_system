@@ -15,22 +15,22 @@ Mysql:
   user: root
 
 localfile:
-  path: D:/images
+  path: /home/zty/images
 
 email:
   addr: smtp.qq.com:25
   host: smtp.qq.com
   from: "study_system <2745969694@qq.com>"
   email: 2745969694@qq.com
-  auth: xxxxxxx
+  auth: xhteefrzvgasdeig
   expire: 300
 
 pgsql:
   host: 192.168.1.67
   port: 5432
-  password: postgres
+  password: dream
   dbname: study_system
-  user: postgres
+  user: zty
 
 Video:
   num:10

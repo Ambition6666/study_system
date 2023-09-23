@@ -17,6 +17,8 @@
 [GIN-debug] POST   /api/identified/study/getstudyroute --> studysystem/api.GetStudyRoute (5 handlers)
 [GIN-debug] POST   /api/identified/study/getquestion --> studysystem/api.GetProblems (5 handlers)
 [GIN-debug] POST   /api/identified/study/answer --> studysystem/api.CommitAnswer (5 handlers)
+[GIN-debug] POST   /api/identified/study/test --> studysystem/api.GetTest (5 handlers)
+[GIN-debug] POST   /api/identified/study/testres --> studysystem/api.TestCommitAnswer (5 handlers)
 [GIN-debug] GET    /api/identified/study/record --> studysystem/api.GetRecord (5 handlers)
 [GIN-debug] POST   /api/admin/addvideo       --> studysystem/api.AddVideo (6 handlers)
 [GIN-debug] DELETE /api/admin/deletevideo    --> studysystem/api.DeleteVideo (6 handlers)
@@ -26,6 +28,3 @@
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :9090
-[GIN] 2023/09/15 - 21:24:13 | 200 |    1.2991733s |       127.0.0.1 | POST     "/api/admin/addproblem"
-[GIN] 2023/09/15 - 21:31:51 | 200 |     11.5834ms |       127.0.0.1 | POST     "/api/identified/study/getstudyroute"
-[GIN] 2023/09/15 - 21:32:20 | 200 |    775.0095ms |       127.0.0.1 | POST     "/api/admin/addproblem"
